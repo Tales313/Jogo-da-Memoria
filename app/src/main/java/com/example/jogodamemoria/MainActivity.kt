@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dao = ProfessorDAO(this@MainActivity)
+        // dao = ProfessorDAO(this@MainActivity)
 
         mainBtJogar = findViewById(R.id.mainBtJogar)
         mainBtListagem = findViewById(R.id.mainBtListagem)
@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun novaPartida(view: View?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val it = Intent(this@MainActivity, JogoActivity::class.java)
+        startActivity(it)
     }
 
 }
