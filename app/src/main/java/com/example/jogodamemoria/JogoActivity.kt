@@ -1,5 +1,7 @@
 package com.example.jogodamemoria
 
+import android.app.Activity
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -22,16 +24,17 @@ class JogoActivity : AppCompatActivity() {
     )
     private var cartas = intArrayOf(0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7).toList().shuffled()
     private var posCartaSelecionada = -1
+    private lateinit var jogadorLogado: Jogador
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jogo)
 
-        this.jogoGv = findViewById(R.id.jogoGv)
+        jogoGv = findViewById(R.id.jogoGv)
         val imageAdapter = ImageAdapter(this@JogoActivity)
-        this.jogoGv.adapter = imageAdapter
-        this.jogoGv.setOnItemClickListener(Jogo())
-
+        jogoGv.adapter = imageAdapter
+        jogoGv.setOnItemClickListener(Jogo())
+        jogadorLogado = intent.getSerializableExtra("JOGADOR") as Jogador
     }
 
     inner class Jogo : AdapterView.OnItemClickListener {
@@ -42,20 +45,24 @@ class JogoActivity : AppCompatActivity() {
                 view.setImageResource(professores[cartas[position]])
             } else {
                 if (posCartaSelecionada == position) {
-                    (view as ImageView).setImageResource(R.drawable.unknown)
-                    Toast.makeText(this@JogoActivity, "Pick another card!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@JogoActivity, "Escolha outra carta!", Toast.LENGTH_SHORT).show()
                 }
                 else if (cartas[posCartaSelecionada] != cartas[position]) {
-                    // (view as ImageView).setImageResource(professores[pos[position]])
-                    // Thread.sleep(1000)
                     cartaSelecionada?.setImageResource(R.drawable.unknown)
-                    Toast.makeText(this@JogoActivity, "Erooouuu!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@JogoActivity, "Errou!", Toast.LENGTH_SHORT).show()
                 } else {
                     (view as ImageView).setImageResource(professores[cartas[position]])
                     pontos++
+                    Toast.makeText(this@JogoActivity, "Acertou!!", Toast.LENGTH_SHORT).show()
 
                     if (pontos == 8) {
-                        Toast.makeText(this@JogoActivity, "You win!", Toast.LENGTH_LONG).show()
+                        jogadorLogado.addVitoria()
+                        val intent = Intent()
+                        intent.putExtra("JOGADOR", jogadorLogado)
+                        setResult(Activity.RESULT_OK, intent)
+                        val msg = "Mais uma vitória para ${jogadorLogado.nome}! Total de ${jogadorLogado.vitorias}."
+                        Toast.makeText(this@JogoActivity, msg, Toast.LENGTH_LONG).show()
+                        finish()
                     }
                 }
                 posCartaSelecionada = -1

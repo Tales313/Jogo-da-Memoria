@@ -1,6 +1,8 @@
 package com.example.jogodamemoria
 
-class Jogador {
+import java.io.Serializable
+
+class Jogador : Serializable {
 
     var id: Int
     var nome: String

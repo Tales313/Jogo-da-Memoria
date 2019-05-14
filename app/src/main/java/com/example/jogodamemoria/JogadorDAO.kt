@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 
 class JogadorDAO {
-    private lateinit var banco: BancoHelper
+    private var banco: BancoHelper
 
     constructor(context: Context) {
         this.banco = BancoHelper(context)
@@ -13,7 +13,7 @@ class JogadorDAO {
     fun insert(j: Jogador) {
         val cv = ContentValues()
         cv.put("nome", j.nome)
-        this.banco.writableDatabase.insert("pessoa", null, cv)
+        this.banco.writableDatabase.insert("jogador", null, cv)
     }
 
     fun get(): ArrayList<Jogador> {
@@ -50,6 +50,28 @@ class JogadorDAO {
             val vitorias = c.getInt(c.getColumnIndex("vitorias"))
             c.close()
             var j = Jogador(id, nome)
+            j.vitorias = vitorias
+            return j
+        }
+        c.close()
+        return null
+    }
+
+    fun get(nome: String): Jogador? {
+        val colunas = arrayOf("id", "nome", "vitorias")
+        val where = "nome = ?"
+        val pwhere = arrayOf(nome)
+
+        val c = this.banco.readableDatabase.query("jogador", colunas, where, pwhere, null, null, null)
+
+        c.moveToFirst()
+
+        if(c.count > 0) {
+            val id = c.getInt(c.getColumnIndex("id"))
+            val nome = c.getString(c.getColumnIndex("nome"))
+            val vitorias = c.getInt(c.getColumnIndex("vitorias"))
+            c.close()
+            val j = Jogador(id, nome)
             j.vitorias = vitorias
             return j
         }

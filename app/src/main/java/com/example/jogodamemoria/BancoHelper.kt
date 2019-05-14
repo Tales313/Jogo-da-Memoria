@@ -10,7 +10,7 @@ class BancoHelper(context: Context):
     override fun onCreate(db: SQLiteDatabase?) {
         val sql = "create table jogador (" +
                 "id integer primary key autoincrement, " +
-                "nome text, " +
+                "nome text unique, " +
                 "vitorias integer)"
         db?.execSQL(sql)
     }
