@@ -10,13 +10,13 @@
         tools:context=".JogoActivity">
 
     <Button
-            android:id="@+id/jogoBtVoltar"
-            android:text="Voltar"
+            android:id="@+id/jogoBtSair"
+            android:text="Sair da partida"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
     <GridView
-            android:id="@+id/jogoGl"
+            android:id="@+id/jogoGv"
             android:numColumns="4"
             android:stretchMode="columnWidth"
             android:layout_width="match_parent"

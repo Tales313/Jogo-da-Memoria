@@ -3,16 +3,18 @@ package com.example.jogodamemoria
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AbsListView
+import android.widget.BaseAdapter
+import android.widget.ImageView
 
-class CustomGridAdapter(private val context: Context, private val thumbIds: Array<Int>) : BaseAdapter() {
+class ImageAdapter(private val context: Context) : BaseAdapter() {
 
     override fun getCount(): Int {
-        return thumbIds.size
+        return 16
     }
 
-    override fun getItem(position: Int): Any {
-        return thumbIds[position]
+    override fun getItem(position: Int): Any? {
+        return null
     }
 
     override fun getItemId(position: Int): Long {
@@ -22,14 +24,14 @@ class CustomGridAdapter(private val context: Context, private val thumbIds: Arra
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val imageView: ImageView
         if (convertView == null) {
-            imageView = ImageView(context)
+            imageView = ImageView(this.context)
             // imageView.layoutParams = GridView.LayoutParams(244, 373)
             imageView.setLayoutParams(GridView@ AbsListView.LayoutParams(244,373))
-            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        } else {
+            imageView.scaleType = ImageView.ScaleType.FIT_XY
+        } else
             imageView = convertView as ImageView
-        }
-        imageView.setImageResource(thumbIds[position])
+
+        imageView.setImageResource(R.drawable.unknown)
         return imageView
     }
 }

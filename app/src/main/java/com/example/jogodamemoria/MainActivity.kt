@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var dao: ProfessorDAO
+    // private lateinit var dao: JogadorDAO
 
     private lateinit var mainBtJogar: Button
     private lateinit var mainBtListagem: Button
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // dao = ProfessorDAO(this@MainActivity)
+        // dao = JogadorDAO(this@MainActivity)
 
         mainBtJogar = findViewById(R.id.mainBtJogar)
         mainBtListagem = findViewById(R.id.mainBtListagem)
