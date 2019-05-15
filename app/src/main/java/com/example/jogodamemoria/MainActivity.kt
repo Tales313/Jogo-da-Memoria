@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -19,9 +20,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mainBtJogar: Button
     private lateinit var mainBtListagem: Button
+    private lateinit var mainTvLogin: TextView
     private lateinit var mainEtLogin: EditText
     private lateinit var mainBtLogin: Button
     private lateinit var mainTvMsgLogin: TextView
+    private lateinit var mainBtLogout: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +34,16 @@ class MainActivity : AppCompatActivity() {
 
         mainBtJogar = findViewById(R.id.mainBtJogar)
         mainBtListagem = findViewById(R.id.mainBtListagem)
+        mainTvLogin = findViewById(R.id.mainTvLogin)
         mainEtLogin = findViewById(R.id.mainEtLogin)
         mainBtLogin = findViewById(R.id.mainBtLogin)
         mainTvMsgLogin = findViewById(R.id.mainTvMsgLogin)
+        mainBtLogout = findViewById(R.id.mainBtLogout)
 
         mainBtJogar.setOnClickListener{novaPartida(it)}
         mainBtListagem.setOnClickListener{listagem(it)}
         mainBtLogin.setOnClickListener{logar(it)}
+        mainBtLogout.setOnClickListener{deslogar(it)}
     }
 
     private fun logar(view: View?) {
@@ -57,6 +63,36 @@ class MainActivity : AppCompatActivity() {
             }
             mainTvMsgLogin.text = "${jogadorLogado.nome} tem ${jogadorLogado.vitorias} vitórias."
             isLogado = true
+            mainEtLogin.setText("")
+            visibilidadeComponentes("login")
+            val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+        }
+    }
+
+    private fun deslogar(view: View?) {
+        if(!isLogado)
+            Toast.makeText(this@MainActivity, "Já está deslogado!", Toast.LENGTH_SHORT).show()
+        else {
+            isLogado = false
+            mainTvMsgLogin.text = "Faça login para jogar!"
+            visibilidadeComponentes("logoff")
+        }
+    }
+
+    private fun visibilidadeComponentes(logar: String) {
+        if(logar == "login") {
+            mainEtLogin.visibility = View.INVISIBLE
+            mainBtLogin.visibility = View.INVISIBLE
+            mainBtLogout.visibility = View.VISIBLE
+            mainTvLogin.visibility = View.INVISIBLE
+            mainBtJogar.visibility = View.VISIBLE
+        }else if(logar == "logoff"){
+            mainEtLogin.visibility = View.VISIBLE
+            mainBtLogin.visibility = View.VISIBLE
+            mainBtLogout.visibility = View.INVISIBLE
+            mainTvLogin.visibility = View.VISIBLE
+            mainBtJogar.visibility = View.INVISIBLE
         }
     }
 
