@@ -50,9 +50,11 @@ class JogoActivity : AppCompatActivity() {
                 else if (cartas[posCartaSelecionada] != cartas[position]) {
                     cartaSelecionada?.setImageResource(R.drawable.unknown)
                     Toast.makeText(this@JogoActivity, "Errou!", Toast.LENGTH_SHORT).show()
+                    posCartaSelecionada = -1
                 } else {
                     (view as ImageView).setImageResource(professores[cartas[position]])
                     pontos++
+                    posCartaSelecionada = -1
                     Toast.makeText(this@JogoActivity, "Acertou!!", Toast.LENGTH_SHORT).show()
 
                     if (pontos == 8) {
@@ -65,7 +67,6 @@ class JogoActivity : AppCompatActivity() {
                         finish()
                     }
                 }
-                posCartaSelecionada = -1
             }
         }
     }
