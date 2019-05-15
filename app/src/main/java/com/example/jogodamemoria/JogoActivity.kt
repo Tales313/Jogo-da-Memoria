@@ -10,8 +10,10 @@ import android.widget.*
 class JogoActivity : AppCompatActivity() {
 
     private lateinit var jogoGv: GridView
-    private var cartaSelecionada: ImageView? = null
+    private var primeiraCarta: ImageView? = null
+    private var segundaCarta: ImageView? = null
     private var pontos = 0
+    private var acertouUltimaJogada = false
     private val professores = intArrayOf(
         R.drawable.alana,
         R.drawable.alex,
@@ -40,21 +42,32 @@ class JogoActivity : AppCompatActivity() {
     inner class Jogo : AdapterView.OnItemClickListener {
         override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
             if (posCartaSelecionada < 0) {
+                if(!acertouUltimaJogada) {
+                    primeiraCarta?.setImageResource(R.drawable.unknown)
+                    segundaCarta?.setImageResource(R.drawable.unknown)
+                    acertouUltimaJogada = false
+                }
                 posCartaSelecionada = position
-                cartaSelecionada = view as ImageView
+                primeiraCarta = view as ImageView
                 view.setImageResource(professores[cartas[position]])
             } else {
                 if (posCartaSelecionada == position) {
                     Toast.makeText(this@JogoActivity, "Escolha outra carta!", Toast.LENGTH_SHORT).show()
                 }
                 else if (cartas[posCartaSelecionada] != cartas[position]) {
-                    cartaSelecionada?.setImageResource(R.drawable.unknown)
-                    Toast.makeText(this@JogoActivity, "Errou!", Toast.LENGTH_SHORT).show()
+                    (view as ImageView).setImageResource(professores[cartas[position]])
                     posCartaSelecionada = -1
+                    acertouUltimaJogada = false
+                    segundaCarta = view
+                    Toast.makeText(this@JogoActivity, "Errou!", Toast.LENGTH_SHORT).show()
                 } else {
                     (view as ImageView).setImageResource(professores[cartas[position]])
                     pontos++
                     posCartaSelecionada = -1
+                    acertouUltimaJogada = true
+                    segundaCarta = view
+                    primeiraCarta?.setOnClickListener(null)
+                    segundaCarta?.setOnClickListener(null)
                     Toast.makeText(this@JogoActivity, "Acertou!!", Toast.LENGTH_SHORT).show()
 
                     if (pontos == 8) {
