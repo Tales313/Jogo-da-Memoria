@@ -18,6 +18,7 @@
         <Button
                 android:id="@+id/mainBtJogar"
                 android:text="Jogar Nova Partida"
+                android:visibility="invisible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         <Button
@@ -30,11 +31,13 @@
     <LinearLayout
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <TextView
+                android:id="@+id/mainTvLogin"
                 android:text="Digite seu nome:"
+                android:textSize="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         <EditText
@@ -50,12 +53,20 @@
 
     <LinearLayout
             android:layout_weight="1"
+            android:orientation="vertical"
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <TextView
                 android:id="@+id/mainTvMsgLogin"
                 android:text="Faça login para jogar!"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <Button
+                android:id="@+id/mainBtLogout"
+                android:text="Logout"
+                android:visibility="invisible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
     </LinearLayout>
