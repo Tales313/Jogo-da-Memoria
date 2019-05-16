@@ -10,7 +10,6 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
-import org.w3c.dom.Text
 
 class ListagemActivity : AppCompatActivity() {
     private lateinit var listagemLvProfessores: ListView
@@ -24,7 +23,7 @@ class ListagemActivity : AppCompatActivity() {
     }
 
     private class ListExampleAdapter(context: Context) : BaseAdapter() {
-        internal var sList = arrayOf(
+        internal var professores = arrayOf(
             Professor(
                 "Alana Marques de Morais",
                 "Padrões de Projeto de Software",
@@ -141,18 +140,18 @@ class ListagemActivity : AppCompatActivity() {
                 R.drawable.valeria
             )
         )
-        private val mInflator: LayoutInflater
+        private val inflator: LayoutInflater
 
         init {
-            this.mInflator = LayoutInflater.from(context)
+            this.inflator = LayoutInflater.from(context)
         }
 
         override fun getCount(): Int {
-            return sList.size
+            return professores.size
         }
 
         override fun getItem(position: Int): Any {
-            return sList[position]
+            return professores[position]
         }
 
         override fun getItemId(position: Int): Long {
@@ -160,41 +159,21 @@ class ListagemActivity : AppCompatActivity() {
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
-            val view = this.mInflator.inflate(R.layout.activity_professor, parent, false)
+            val view = this.inflator.inflate(R.layout.activity_professor, parent, false)
 
-            var profIvFoto = findViewById(R.id.profIvFoto) as ImageView
-            var profTvNome = findViewById(R.id.profTvNome) as TextView
-            var profTvDisciplina = findViewById(R.id.profTvDisciplina) as TextView
+            val profIvFoto = view.findViewById(R.id.profIvFoto) as ImageView
+            val profTvNome = view.findViewById(R.id.profTvNome) as TextView
+            val profTvDisciplina = view.findViewById(R.id.profTvDisciplina) as TextView
 
-            var prof = sList[position]
+            val prof = professores[position]
 
             profIvFoto.setImageResource(prof.foto)
             profTvNome.text = prof.nome
             profTvDisciplina.text = prof.disciplina
 
-            return view
+            profIvFoto.setImageResource(prof.foto)
 
-//            val view: View?
-//            val vh: ListRowHolder
-//            if (convertView == null) {
-//                view = this.mInflator.inflate(R.layout.activity_listagem, parent, false)
-//                vh = ListRowHolder(view)
-//                view.tag = vh
-//            } else {
-//                view = convertView
-//                vh = view.tag as ListRowHolder
-//            }
-//
-//            vh.label.text = sList[position].toString()
-//            return view
+            return view
         }
     }
-
-//    private class ListRowHolder(row: View?) {
-//        public val label: TextView
-//
-//        init {
-//            this.label = row?.findViewById(R.id.label) as TextView
-//        }
-//    }
 }
