@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
+import kotlin.random.Random
 
 class JogoActivity : AppCompatActivity() {
 
@@ -14,17 +16,8 @@ class JogoActivity : AppCompatActivity() {
     private var segundaCarta: ImageView? = null
     private var pontos = 0
     private var acertouUltimaJogada = false
-    private val professores = intArrayOf(
-        R.drawable.alana,
-        R.drawable.alex,
-        R.drawable.candido,
-        R.drawable.crishane,
-        R.drawable.damires,
-        R.drawable.denio,
-        R.drawable.edemberg,
-        R.drawable.fausto
-    )
-    private var cartas = intArrayOf(0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7).toList().shuffled()
+    private lateinit var professores: ArrayList<Professor>
+    private var cartas = arrayListOf<Int>() //= intArrayOf(0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7).toList().shuffled()
     private var posCartaSelecionada = -1
     private lateinit var jogadorLogado: Jogador
 
@@ -37,6 +30,20 @@ class JogoActivity : AppCompatActivity() {
         jogoGv.adapter = imageAdapter
         jogoGv.setOnItemClickListener(Jogo())
         jogadorLogado = intent.getSerializableExtra("JOGADOR") as Jogador
+        professores = intent.getSerializableExtra("PROFESSORES") as ArrayList<Professor>
+
+        var x: Int
+        val arrayAux1 = arrayListOf<Int>()
+        while(true) {
+            x = Random.nextInt(0, 22)
+            if(!arrayAux1.contains(x))
+                arrayAux1.add(x)
+            if(arrayAux1.size == 8)
+                break
+        }
+        cartas.addAll(arrayAux1)
+        cartas.addAll(arrayAux1)
+        cartas = cartas.toList().shuffled() as ArrayList<Int>
     }
 
     inner class Jogo : AdapterView.OnItemClickListener {
@@ -49,26 +56,25 @@ class JogoActivity : AppCompatActivity() {
                 }
                 posCartaSelecionada = position
                 primeiraCarta = view as ImageView
-                view.setImageResource(professores[cartas[position]])
+                view.setImageResource(professores[cartas[position]].foto)
             } else {
                 if (posCartaSelecionada == position) {
                     Toast.makeText(this@JogoActivity, "Escolha outra carta!", Toast.LENGTH_SHORT).show()
                 }
                 else if (cartas[posCartaSelecionada] != cartas[position]) {
-                    (view as ImageView).setImageResource(professores[cartas[position]])
+                    (view as ImageView).setImageResource(professores[cartas[position]].foto)
                     posCartaSelecionada = -1
                     acertouUltimaJogada = false
                     segundaCarta = view
-                    Toast.makeText(this@JogoActivity, "Errou!", Toast.LENGTH_SHORT).show()
                 } else {
-                    (view as ImageView).setImageResource(professores[cartas[position]])
+                    (view as ImageView).setImageResource(professores[cartas[position]].foto)
                     pontos++
                     posCartaSelecionada = -1
                     acertouUltimaJogada = true
                     segundaCarta = view
                     primeiraCarta?.setOnClickListener(null)
                     segundaCarta?.setOnClickListener(null)
-                    Toast.makeText(this@JogoActivity, "Acertou!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@JogoActivity, "Acertou!", Toast.LENGTH_SHORT).show()
 
                     if (pontos == 8) {
                         jogadorLogado.addVitoria()

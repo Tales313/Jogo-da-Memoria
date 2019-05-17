@@ -1,6 +1,8 @@
 package com.example.jogodamemoria
 
-class Professor {
+import java.io.Serializable
+
+class Professor: Serializable {
 
     var nome: String
     var disciplina: String

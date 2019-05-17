@@ -25,9 +25,11 @@ class ImageAdapter(private val context: Context) : BaseAdapter() {
         val imageView: ImageView
         if (convertView == null) {
             imageView = ImageView(this.context)
-            // imageView.layoutParams = GridView.LayoutParams(244, 373)
-            imageView.setLayoutParams(GridView@ AbsListView.LayoutParams(244,373))
+            var w = context.resources.displayMetrics.widthPixels / 4
+            var h = w + (w/4)
+            imageView.setLayoutParams(AbsListView.LayoutParams(w, h))
             imageView.scaleType = ImageView.ScaleType.FIT_XY
+            // imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         } else
             imageView = convertView as ImageView
 
