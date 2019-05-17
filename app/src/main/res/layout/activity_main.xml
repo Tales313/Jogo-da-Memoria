@@ -21,6 +21,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         <Button
+                android:id="@+id/mainBtRanking"
+                android:text="Mostrar Ranking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <Button
                 android:id="@+id/mainBtListagem"
                 android:text="Mostrar Listagem"
                 android:layout_width="wrap_content"

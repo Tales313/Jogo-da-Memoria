@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var jogadorLogado: Jogador
 
     private lateinit var mainBtJogar: Button
+    private lateinit var mainBtRanking: Button
     private lateinit var mainBtListagem: Button
     private lateinit var mainTvLogin: TextView
     private lateinit var mainEtLogin: EditText
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         dao = JogadorDAO(this@MainActivity)
 
         mainBtJogar = findViewById(R.id.mainBtJogar)
+        mainBtRanking = findViewById(R.id.mainBtRanking)
         mainBtListagem = findViewById(R.id.mainBtListagem)
         mainTvLogin = findViewById(R.id.mainTvLogin)
         mainEtLogin = findViewById(R.id.mainEtLogin)
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         mainBtLogout = findViewById(R.id.mainBtLogout)
 
         mainBtJogar.setOnClickListener{novaPartida(it)}
+        mainBtRanking.setOnClickListener{ranking(it)}
         mainBtListagem.setOnClickListener{listagem(it)}
         mainBtLogin.setOnClickListener{logar(it)}
         mainBtLogout.setOnClickListener{deslogar(it)}
@@ -214,6 +217,12 @@ class MainActivity : AppCompatActivity() {
             mainTvLogin.visibility = View.VISIBLE
             mainBtJogar.visibility = View.INVISIBLE
         }
+    }
+
+    private fun ranking(view: View?) {
+        val it = Intent(this@MainActivity, RankingActivity::class.java)
+        it.putExtra("JOGADORES", dao.get())
+        startActivity(it)
     }
 
     private fun listagem(view: View?) {

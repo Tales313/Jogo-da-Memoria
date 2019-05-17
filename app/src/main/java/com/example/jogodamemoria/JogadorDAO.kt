@@ -20,7 +20,7 @@ class JogadorDAO {
         val colunas = arrayOf("id", "nome", "vitorias")
         val lista = ArrayList<Jogador>()
 
-        val c = this.banco.readableDatabase.query("jogador", colunas, null, null, null, null, "nome")
+        val c = this.banco.readableDatabase.query("jogador", colunas, null, null, null, null, " vitorias DESC")
 
         c.moveToFirst()
 
@@ -28,7 +28,10 @@ class JogadorDAO {
             do {
                 val id = c.getInt(c.getColumnIndex("id"))
                 val nome = c.getString(c.getColumnIndex("nome"))
-                lista.add(Jogador(id, nome))
+                val vitorias = c.getInt(c.getColumnIndex("vitorias"))
+                val jogador = Jogador(id, nome)
+                jogador.vitorias = vitorias
+                lista.add(jogador)
             }while(c.moveToNext())
         }
         c.close()
